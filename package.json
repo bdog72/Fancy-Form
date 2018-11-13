@@ -1,0 +1,19 @@
+{
+    "name": "parcel-starter-template",
+    "version": "1.0.0",
+    "description": "Parcel Starter Template",
+    "main": "index.js",
+    "scripts": {
+        "start": "parcel index.html",
+        "build": "parcel build index.html"
+    },
+    "author": "Brian Bycynski",
+    "license": "MIT",
+    "dependencies": {
+        "node-sass": "^4.10.0",
+        "parcel-bundler": "^1.10.3"
+    },
+    "devDependencies": {
+        "sass": "^1.14.3"
+    }
+}
