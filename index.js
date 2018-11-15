@@ -1,2 +1,3 @@
+import './js/app';
+
 import './main.scss';
-console.log('Bozo Beak');

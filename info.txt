@@ -1,0 +1,7 @@
+11-13-18 -- 05:40am -- Just started project
+
+11-13-18 -- 05:40am -- Created Git Repo and made Initial Commit
+
+11-13-18 -- 05:45am -- Made Surge Initial Deployment https://loutish-treatment.surge.sh
+
+11-13-18 -- 1:30pm -- completed 

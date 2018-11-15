@@ -104,7 +104,143 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   // Override the current require with this new one
   return newRequire;
-})({"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+})({"js/app.js":[function(require,module,exports) {
+console.log('From js/app.js'); // Questions Array
+
+var questions = [{
+  question: 'Enter Your First Name'
+}, {
+  question: 'Enter Your Last Name'
+}, {
+  question: 'Enter Your Email',
+  pattern: /\S+@\S+\.\S+/
+}, {
+  question: 'Create A Password',
+  type: 'password'
+}]; // Transition Times
+
+var shakeTime = 100; // Shake Transition Time
+
+var switchTime = 200; // Transition Between Questions
+// Init Position At First Question
+
+var position = 0; // Init DOM Elements
+
+var formBox = document.querySelector('#form-box');
+var nextBtn = document.querySelector('#next-btn');
+var prevBtn = document.querySelector('#prev-btn');
+var inputGroup = document.querySelector('#input-group');
+var inputField = document.querySelector('#input-field');
+var inputLabel = document.querySelector('#input-label');
+var inputProgress = document.querySelector('#input-progress');
+var progress = document.querySelector('#progress-bar'); // EVENTS
+// Get question on DOM load
+
+document.addEventListener('DOMContentLoaded', getQuestion); // Next Button Click
+
+nextBtn.addEventListener('click', validate); // Input Filed enter click
+
+inputField.addEventListener('keyup', function (e) {
+  if (e.keyCode == 13) {
+    validate();
+  }
+}); // FUNCTIONS
+// Get Question From Array & Add To Markup
+
+function getQuestion() {
+  // Get Current Question
+  inputLabel.innerHTML = questions[position].question; // Get Current Type
+
+  inputField.type = questions[position].type || 'text'; // Get Current Answer
+
+  inputField.value = questions[position].answer || ''; // Focus On element
+
+  inputField.focus(); // Set Progress Bar Width
+
+  progress.style.width = position * 100 / questions.length + '%'; // Add user icon or back arrow depending on question
+
+  prevBtn.className = position ? 'fas fa-arrow-left' : 'fas fa-user';
+  showQuestion();
+} // Display question to user
+
+
+function showQuestion() {
+  inputGroup.style.opacity = 1;
+  inputProgress.style.transition = '';
+  inputProgress.style.width = '100%';
+} // Hide question
+
+
+function hideQuestion() {
+  inputGroup.style.opacity = 0;
+  inputLabel.style.marginLeft = 0;
+  inputProgress.style.width = 0;
+  inputProgress.style.transition = '';
+  inputGroup.style.border = null;
+} // Transform to create shake motion
+
+
+function transform(x, y) {
+  formBox.style.transform = "translate(".concat(x, "px, ").concat(y, "px)");
+} // Validate Field
+
+
+function validate() {
+  // Make sure pattern matches if there is one
+  if (!inputField.value.match(questions[position].pattern || /.+/)) {
+    inputFail();
+  } else {
+    inputPass();
+  }
+} // Field Input Fail
+
+
+function inputFail() {
+  formBox.className = 'error'; // Repeat shake Motion
+
+  for (var i = 0; i < 6; i++) {
+    setTimeout(transform, shakeTime * i, (i % 2 * 2 - 1) * 20, 0);
+    setTimeout(transform, shakeTime * 6, 0, 0);
+    inputField.focus();
+  }
+} // Field Input Pass
+
+
+function inputPass() {
+  formBox.className = '';
+  setTimeout(transform, shakeTime * 0, 0, 10);
+  setTimeout(transform, shakeTime * 1, 0, 0); // store answer in array
+
+  questions[position].answer = inputField.value; // Increment Position
+
+  position++; // If new Question, hide current and get new one
+
+  if (questions[position]) {
+    hideQuestion();
+    getQuestion();
+  } else {
+    // Remove if no questions left
+    hideQuestion();
+    formBox.className = 'close';
+    progress.style.width = '100%'; // Form Complete
+
+    formComplete();
+  }
+} // all fields complete -- show h1 End
+
+
+function formComplete() {
+  var h1 = document.createElement('h1');
+  h1.classList.add('end');
+  h1.appendChild(document.createTextNode("Thanks ".concat(questions[0].answer, " you are registered and will get a email shortly")));
+  setTimeout(function () {
+    formBox.parentElement.appendChild(h1);
+    setTimeout(function () {
+      return h1.style.opacity = 1;
+    }, 50);
+  }, 1000);
+}
+},{}],"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -179,10 +315,10 @@ module.hot.accept(reloadCSS);
 },{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
-require("./main.scss");
+require("./js/app");
 
-console.log('Bozo Beak');
-},{"./main.scss":"main.scss"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+require("./main.scss");
+},{"./js/app":"js/app.js","./main.scss":"main.scss"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -209,7 +345,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52304" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56098" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
